@@ -15,10 +15,10 @@ igl::opengl::glfw::Viewer viewer;
 
 void readDataPoints(std::vector<Eigen::Vector3d> &dataPoints) {
     std::ifstream ifs;
-    ifs.open("../../data/data2.txt");
+    ifs.open("../../data/data1.txt");
     if (!ifs.is_open())
 	{
-		std::cout << "Data Points 文件打开失败！" << std::endl;
+		std::cout << "error！" << std::endl;
         return ;
 	}
     std::string buf;
@@ -57,17 +57,17 @@ void test() {
     std::vector<Eigen::Vector3d> dataPoints;
     readDataPoints(dataPoints);
 
-    CurveApproximation appr(dataPoints, 6, 2);
+    CurveApproximation appr(dataPoints, 7, 2);
     appr.setCentripetalParam();
     appr.buildBSplineCurve();
 
     showDataPoints(dataPoints, RED);
     showCurve(appr.crv, GREEN);
     // 输出拟合后的控制点
+    std::cout << "拟合后的控制点如下：" << std::endl;
     for (auto i : appr.crv.conPts) {
         std::cout << i(0) << ", " << i(1) << ", " << i(2) << std::endl;
     }
-    std::cout << std::endl;
 
     viewer.data().point_size = 3;
     viewer.launch();
